@@ -46,8 +46,37 @@ Leaf3 - 10.2.0.33/32
 interface loopback0
   ip address 10.2.0.X/32
 ```
+Setting up OSPF for UNDERLAY 
+```
+router ospf UNDERLAY
+  router-id 10.2.0.X
+!
+interface loopback0
+ ip router ospf UNDERLAY area 0.0.0.0 
+```
+#Configure Interfaces on SPINES - towards LEAFS (eth1/1-3)
+#(ip unnumbered loopback0)
+```
+interface Ethernet1/1-3
+  no shutdown
+  no switchport
+  medium p2p
+  mtu 9216
+  ip address 10.4.0.X/30
+  ip ospf network point-to-point
+  ip router ospf UNDERLAY area 0.0.0.0
+```
 
-
-
+Configure Interfaces on LEAFs - towards SPINES (eth1/1-2 )
+```
+interface Ethernet1/1-2
+  no shutdown
+  no switchport
+  medium p2p
+  mtu 9216
+  ip address 10.4.0.X/30
+  ip ospf network point-to-point
+  ip router ospf UNDERLAY area 0.0.0.0
+```
 
 
