@@ -54,8 +54,8 @@ router ospf UNDERLAY
 interface loopback0
  ip router ospf UNDERLAY area 0.0.0.0 
 ```
-#Configure Interfaces on SPINES - towards LEAFS (eth1/1-3)
-#(ip unnumbered loopback0)
+Configure Interfaces on SPINES - towards LEAFS (eth1/1-3)
+(ip unnumbered loopback0)
 ```
 interface Ethernet1/1-3
   no shutdown
@@ -78,5 +78,52 @@ interface Ethernet1/1-2
   ip ospf network point-to-point
   ip router ospf UNDERLAY area 0.0.0.0
 ```
+
+Verfication Commands
+```
+show ip ospf neighbor
+!
+show ip route ospf-UNDERLAY
+!
+```
+<img width="807" height="730" alt="image" src="https://github.com/user-attachments/assets/de276d2e-3b40-45b3-81e6-ed1e1062d1b7" />
+
+<img width="805" height="726" alt="image" src="https://github.com/user-attachments/assets/8e240959-c75c-4d5b-b04d-d134149fe970" />
+
+
+Setting up Multicast - PIM 
+loopback1 (on spines only)
+loopback0 (config on leafs)
+
+SPINE config
+```
+ip pim rp-address 10.2.0.99 group-list 224.0.0.0/4
+ip pim ssm range 232.0.0.0/8
+ip pim anycast-rp 10.2.0.99 10.2.0.1
+ip pim anycast-rp 10.2.0.99 10.2.0.2
+interface Loopback1
+ ip address 10.2.0.99/32
+ ip router ospf UNDERLAY area 0.0.0.0
+ ip pim sparse-mode
+```
+
+LEAF config
+```
+ip pim rp-address 10.0.0.99 group-list 224.0.0.0/4
+ip pim ssm range 232.0.0.0/8
+```
+
+SPINES
+Enable IP PIM Sparse Mode on all interfaces (Lo0,Lo1,intEther1/1-3)
+```
+ip pim sparse-mode
+```
+
+LEAFs
+Enable IP PIM Sparse Mode on all interfaces (Lo0,intEther1/1-2)
+```
+ip pim sparse-mode
+```
+
 
 
