@@ -35,6 +35,18 @@ feature vn-segment-vlan-based
 feature nv overlay
 ```
 
+Loopback0 - VTEP / BGP peerings
+Spine1 - 10.2.0.1/32
+Spine2 - 10.2.0.2/32
+Leaf1 - 10.2.0.11/32
+Leaf2 - 10.2.0.22/32
+Leaf3 - 10.2.0.33/32
+
+```
+interface loopback0
+  ip address 10.2.0.X/32
+```
+
 
 
 
