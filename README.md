@@ -79,7 +79,7 @@ interface Ethernet1/1-2
   ip router ospf UNDERLAY area 0.0.0.0
 ```
 
-Verfication Commands
+Verification Commands
 ```
 show ip ospf neighbor
 !
@@ -109,7 +109,7 @@ interface Loopback1
 
 LEAF config
 ```
-ip pim rp-address 10.0.0.99 group-list 224.0.0.0/4
+ip pim rp-address 10.2.0.99 group-list 224.0.0.0/4
 ip pim ssm range 232.0.0.0/8
 ```
 
@@ -123,6 +123,109 @@ LEAFs
 Enable IP PIM Sparse Mode on all interfaces (Lo0,intEther1/1-2)
 ```
 ip pim sparse-mode
+```
+
+Verification Commands
+```
+show ip pim rp
+```
+
+<img width="625" height="482" alt="image" src="https://github.com/user-attachments/assets/69267296-aef8-452a-b9e5-a9ad7f89b4fe" />
+
+<img width="586" height="482" alt="image" src="https://github.com/user-attachments/assets/caf4607a-a642-4c2e-abc6-2d9668049da9" />
+
+
+Configure NVE (Network Virtual Endpoint) Interface - VTEP 
+only required on leafs
+```
+interface nve1 
+ no shutdown
+ host-reachability protocol bgp
+ source-interface loopback0
+```
+
+Verification Commands
+```
+show interface nve1 
+```
+
+<img width="650" height="212" alt="image" src="https://github.com/user-attachments/assets/bfce0caf-53da-4cca-bf16-f2f57fcb176b" />
+
+
+Enable NV Overlay (all devices)
+```
+nv overlay evpn 
+```
+
+Configure BGP on SPINES
+```
+router bgp 64500
+address-family ipv4 unicast
+address-family l2vpn evpn
+    retain route-target all
+template peer LEAF
+    remote-as 64500
+    update-source loopback0
+    address-family ipv4 unicast
+      send-community extended
+    route-reflector-client
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+      route-reflector-client
+neighbor 10.2.0.11
+    inherit peer LEAF
+neighbor 10.2.0.22
+    inherit peer LEAF
+neighbor 10.2.0.33
+    inherit peer LEAF
+```
+
+Verification Commands
+```
+show bgp ipv4 unicast summary
+```
+
+<img width="945" height="243" alt="image" src="https://github.com/user-attachments/assets/6be8ba20-81e3-4b50-bd25-c2fe96ecf782" />
+
+
+Configure BGP on LEAFs
+```
+router bgp 64500
+log-neighbor-changes
+address-family ipv4 unicast
+address-family l2vpn evpn
+template peer SPINE
+    remote-as 64500
+    update-source loopback0
+    address-family ipv4 unicast
+    send-community extended
+    soft-reconfiguration inbound
+    address-family l2vpn evpn
+    send-community
+    send-community extended
+neighbor 10.2.0.1
+    inherit peer SPINE
+neighbor 10.2.0.2
+    inherit peer SPINE
+```
+
+Verification Commands
+```
+show bgp ipv4 unicast summary
+!
+show bgp l2vpn evpn summary
+!
+```
+
+<img width="1020" height="587" alt="image" src="https://github.com/user-attachments/assets/2fbdf47e-d308-461f-bef7-551d8054f573" />
+
+Configure L2VNIs (on Leafs)
+Define Access VLAN ports on Leafs
+
+
+```
+show ip arp suppression-cache vlan 10 
 ```
 
 
