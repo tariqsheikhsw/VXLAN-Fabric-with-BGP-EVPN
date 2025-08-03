@@ -4,8 +4,8 @@ VXLAN-Fabric-with-BGP-EVPN
 # Use-Case:1 SPINE LEAF ARCHITECTURE 
 
 # L2 VNIs
-vlan10 - l2vni 100010  
-vlan20 - l2vni 100020   
+vlan10 - l2vni 10010  
+vlan20 - l2vni 10020   
 
 # L3 VNIs
 vlan999 - OVERLAY-TENANT1 - l3vni 100999  
@@ -220,13 +220,49 @@ show bgp l2vpn evpn summary
 
 <img width="1020" height="587" alt="image" src="https://github.com/user-attachments/assets/2fbdf47e-d308-461f-bef7-551d8054f573" />
 
-Configure L2VNIs (on Leafs)
+Configure L2VNIs (on Leafs) - vlan 10 and vlan 20
 Define Access VLAN ports on Leafs
 
+```
+vlan 10
+ vn-segment 10010
+vlan 20
+ vn-segment 10020
+```
 
 ```
-show ip arp suppression-cache vlan 10 
+interface nve1
+  member vni 10010
+    suppress-arp
+    mcast-group 224.1.1.192
+  member vni 10020
+    suppress-arp
+    mcast-group 224.1.1.192
 ```
+
+
+```
+evpn
+vni 100010 l2
+    rd auto
+    route-target import auto
+    route-target export auto
+vni 100020 l2
+    rd auto
+    route-target import auto
+    route-target export auto
+```
+//route-target both auto  
+
+ARP suppression verfication
+```
+show ip arp suppression-cache vlan 10
+!
+show ip arp suppression-cache vlan 20
+!
+```
+
+
 
 
 
