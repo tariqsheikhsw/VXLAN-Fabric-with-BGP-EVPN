@@ -13,7 +13,8 @@ vlan998 - OVERLAY-TENANT2 - l3vni 100998
 
 # Topology (CML)
 
-REPLACE 
+<img width="1024" height="429" alt="473774390-ccb15d23-6a25-4e5a-8240-a61cea213c3c" src="https://github.com/user-attachments/assets/0f5126be-953c-4f9b-b7bb-261aecb2c3ea" />
+
 
 # Configuration Breakdown 
 
