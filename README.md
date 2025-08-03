@@ -263,14 +263,15 @@ show ip arp suppression-cache vlan 20
 !
 ```
 
-Configure Access VLAN ports on Leafs
+Configure Access VLAN ports on Leafs (connected to End client)
 ```
-interface eth1/3
+interface eth1/1
  switchport
  switchport access vlan 10
  spanning-tree port type edge
  no shut
 ```
+
 
 
 
