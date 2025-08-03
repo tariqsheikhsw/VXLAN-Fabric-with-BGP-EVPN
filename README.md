@@ -1,7 +1,7 @@
 # VXLAN-Fabric-with-BGP-EVPN
 VXLAN-Fabric-with-BGP-EVPN
 
-##### Use-Case:1 SPINE LEAF ARCHITECTURE 
+# Use-Case:1 SPINE LEAF ARCHITECTURE 
 
 # L2 VNIs
 vlan10 - l2vni 100010  
