@@ -221,7 +221,7 @@ show bgp l2vpn evpn summary
 <img width="1020" height="587" alt="image" src="https://github.com/user-attachments/assets/2fbdf47e-d308-461f-bef7-551d8054f573" />
 
 Configure L2VNIs (on Leafs) - vlan 10 and vlan 20
-Define Access VLAN ports on Leafs
+
 
 ```
 vlan 10
@@ -262,7 +262,14 @@ show ip arp suppression-cache vlan 20
 !
 ```
 
-
+Configure Access VLAN ports on Leafs
+```
+interface eth1/3
+ switchport
+ switchport access vlan 10
+ spanning-tree port type edge
+ no shut
+```
 
 
 
