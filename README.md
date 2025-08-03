@@ -17,7 +17,25 @@ vlan998 - OVERLAY-TENANT2 - l3vni 100998
 
 # Configuration Breakdown 
 
+To avoid ARP suppression configuration related issues
 
 ```
-commands
+hardware access-list tcam region vpc-convergence 0
+hardware access-list tcam region arp-ether 256 
 ```
+
+NXOS Features (Spine and Leaf) - OSPF is for UNDERLAY and BGP is for OVERLAY
+```
+feature ospf
+feature bgp
+feature pim
+feature fabric forwarding
+feature interface-vlan
+feature vn-segment-vlan-based
+feature nv overlay
+```
+
+
+
+
+
