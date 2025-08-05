@@ -275,5 +275,30 @@ interface eth1/1
 ```
 
 
+Enduser/Client IP address Verification (10.10.1.X subnet)
+```
+show bgp l2vpn evpn x.x.x.x
+```
+
+Configure AnyCast Gateways (same address on all LEAFs) - on LEAF Switches ONLY 
+```
+fabric forwarding anycast-gateway-mac aaaa.bbbb.cccc
+```
+
+Create SVIs on VLAN10 and VLAN20 
+```
+interface Vlan10
+no shutdown
+ip address 10.10.1.254/24
+fabric forwarding mode anycast-gateway
+!
+interface Vlan20
+no shutdown
+ip address 10.20.1.254/24
+fabric forwarding mode anycast-gateway
+!
+```
+
+
 
 
