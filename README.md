@@ -365,4 +365,28 @@ Because of L3 VNI, we are able to ping from one subnet - vlan 10 (10.10.1.X) to 
 
 
 
+VERIFICATION
+```
+show bgp vrf OVERLAY-TENANT1 ipv4 unicast
+!
+show bgp vrf OVERLAY-TENANT1 l2vpn evpn
+!
+```
+
+Route Leaking 
+```
+router bgp 64500
+  vrf OVERLAY-TENANT1
+  address-family ipv4 unicast
+    network 10.10.1.0/24
+    aggregate-address 10.20.0.0/16 summary-only
+  vrf OVERLAY-TENANT2
+  address-family ipv4 unicast
+    network 10.20.1.0/24
+    aggregate-address 10.10.0.0/16 summary-only
+```
+
+
+
+
 
