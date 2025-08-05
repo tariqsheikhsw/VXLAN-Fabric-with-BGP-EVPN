@@ -481,5 +481,17 @@ interface Ethernet1/5
   no shutdown
 ```
 
+Configure BGP Peering
+```
+router bgp 64500
+  vrf external
+    address-family ipv4 unicast
+    aggregate-address 10.10.1.0/24 summary-only
+    aggregate-address 10.20.1.0/24 summary-only
+    neighbor 10.1.50.2
+      remote-as 64520
+      address-family ipv4 unicast
+```
+
 
 Configure Route Leaking using Route-Maps
