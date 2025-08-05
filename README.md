@@ -505,6 +505,13 @@ vrf context OVERLAY-TENANT2
 !
 ```
 
+VERIFICATION 
+```
+show bgp vrf OVERLAY-TENANT1 ipv4 unicast
+!
+show bgp vrf OVERLAY-TENANT2 ipv4 unicast
+!
+```
 
 Configure Route Leaking using Route-Maps
 ```
