@@ -361,3 +361,8 @@ interface Vlan999
   ip forward
 ```
 
+Because of L3 VNI, we are able to ping from one subnet - vlan 10 (10.10.1.X) to another subnet - vlan20 (10.10.2.X) - from one LEAF to another LEAF
+
+
+
+
