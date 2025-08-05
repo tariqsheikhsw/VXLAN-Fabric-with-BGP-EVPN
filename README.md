@@ -386,7 +386,29 @@ router bgp 64500
     aggregate-address 10.10.0.0/16 summary-only
 ```
 
+Configure Route Leaking within VRF 
+```
+vrf context OVERLAY-TENANT1
+  address-family ipv4 unicast
+    route-target import 64500:100998
+    route-target import 64500:100998 evpn
+```
+
+```
+vrf context OVERLAY-TENANT2
+  address-family ipv4 unicast
+    route-target import 64500:100999
+    route-target import 64500:100999 evpn
+```
 
 
-
-
+```
+show bgp vrf OVERLAY-TENANT1 ipv4 unicast
+!
+show bgp vrf OVERLAY-TENANT1 ipv4 unicast 10.10.1.1/32
+!
+show bgp vrf OVERLAY-TENANT2 ipv4 unicast
+!
+show bgp vrf OVERLAY-TENANT1 ipv4 unicast 10.20.1.1/32
+!
+```
