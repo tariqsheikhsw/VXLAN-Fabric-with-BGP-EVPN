@@ -348,4 +348,16 @@ ip address 10.20.1.254/24
 fabric forwarding mode anycast-gateway
 ```
 
+Configure SVI as part of VRF
+```
+interface Vlan998
+  no shutdown
+  vrf member OVERLAY-TENANT2
+  ip forward
+
+interface Vlan999
+  no shutdown
+  vrf member OVERLAY-TENANT1
+  ip forward
+```
 
