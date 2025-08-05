@@ -401,7 +401,7 @@ vrf context OVERLAY-TENANT2
     route-target import 64500:100999 evpn
 ```
 
-
+VERIFICATION 
 ```
 show bgp vrf OVERLAY-TENANT1 ipv4 unicast
 !
@@ -412,3 +412,43 @@ show bgp vrf OVERLAY-TENANT2 ipv4 unicast
 show bgp vrf OVERLAY-TENANT1 ipv4 unicast 10.20.1.1/32
 !
 ```
+
+
+Configure Route Leaking with external VRF 
+```
+vlan 555
+  vn-segment 100555
+```
+
+```
+vrf context OVERLAY-TENANT1
+  address-family ipv4 unicast
+    route-target import 64500:100555
+```
+
+```
+vrf context OVERLAY-TENANT2
+  address-family ipv4 unicast
+    route-target import 64500:100555
+```
+
+```
+vrf context external
+  vni 100555
+  rd auto
+  address-family ipv4 unicast
+      route-target both auto
+      route-target both auto evpn
+      route-target import 64500:100998
+      route-target import 64500:100998 evpn
+      route-target import 64500:100999
+      route-target import 64500:100999 evpn
+```
+
+```
+interface nve1
+  member vni 100555 associate-vrf
+```
+
+
+Configure Route Leaking using Route-Maps
