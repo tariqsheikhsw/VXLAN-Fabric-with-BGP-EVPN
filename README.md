@@ -493,5 +493,21 @@ router bgp 64500
       address-family ipv4 unicast
 ```
 
-
 Configure Route Leaking using Route-Maps
+```
+ROUTE LEAKING
+```
+
+//Some additional configuration required for BGP etc.
+Configure Route Leaking using Route-Maps (On CSR1000V)
+```
+ip prefix-list ONLY-16 permit 0.0.0.0/0 ge 16 le 16
+!
+route-map ONLY-16 permit 10
+ match ip address prefix-list ONL-16
+!
+router bgp 64520
+ neighbor 10.1.50.1 route-map ONLY-16 in
+!
+```
+
