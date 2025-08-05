@@ -275,7 +275,7 @@ interface eth1/1
 ```
 
 
-Enduser/Client IP address Verification (10.10.1.X subnet)
+Enduser/Client IP address Verification (10.10.1.X subnet , 10.20.1.X subnet)
 ```
 show bgp l2vpn evpn x.x.x.x
 ```
@@ -299,6 +299,53 @@ fabric forwarding mode anycast-gateway
 !
 ```
 
+Configure L3 VNI 
+```
+vlan 998
+  vn-segment 100998
+vlan 999
+  vn-segment 100999
+```
 
+Configure VRF Context (on LEAFs) 
+```
+vrf context OVERLAY-TENANT1
+  vni 100999
+  rd auto
+  address-family ipv4 unicast
+      route-target both auto
+      route-target both auto evpn
+```
+
+```
+vrf context OVERLAY-TENANT2
+  vni 100998
+  rd auto
+  address-family ipv4 unicast
+      route-target both auto
+      route-target both auto evpn
+```
+
+Associate with NVE1 ( on LEAFs )
+```
+interface nve1
+  member vni 100998 associate-vrf
+  member vni 100999 associate-vrf
+```
+
+Might need to remove IP and put back in (to configure SVI as part of VRF)
+```
+interface Vlan10
+no shutdown
+vrf member OVERLAY-TENANT1
+ip address 10.10.1.254/24
+fabric forwarding mode anycast-gateway
+
+interface Vlan20
+no shutdown
+vrf member OVERLAY-TENANT2
+ip address 10.20.1.254/24
+fabric forwarding mode anycast-gateway
+```
 
 
