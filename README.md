@@ -414,7 +414,7 @@ show bgp vrf OVERLAY-TENANT1 ipv4 unicast 10.20.1.1/32
 ```
 
 
-Configure Route Leaking with external VRF (CSR)
+Configure Route Leaking with external VRF (CSR1000V)
 
 
 ```
@@ -470,6 +470,15 @@ interface Vlan555
 VERIFICATION
 ```
 show ip route vrf external
+```
+
+Configure Interface Connected to CSR1000V 
+```
+interface Ethernet1/5
+  no switchport
+  vrf member external
+  ip address 10.1.50.1/30
+  no shutdown
 ```
 
 
