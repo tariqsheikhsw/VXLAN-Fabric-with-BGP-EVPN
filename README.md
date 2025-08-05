@@ -7,7 +7,7 @@ VXLAN-Fabric-with-BGP-EVPN
 vlan10 - l2vni 10010  
 vlan20 - l2vni 10020   
 
-# L3 VNIs
+# L3 VNIs (MultiTenant)
 vlan999 - OVERLAY-TENANT1 - l3vni 100999  
 vlan998 - OVERLAY-TENANT2 - l3vni 100998  
 
