@@ -414,7 +414,9 @@ show bgp vrf OVERLAY-TENANT1 ipv4 unicast 10.20.1.1/32
 ```
 
 
-Configure Route Leaking with external VRF 
+Configure Route Leaking with external VRF (CSR)
+
+
 ```
 vlan 555
   vn-segment 100555
@@ -432,6 +434,12 @@ vrf context OVERLAY-TENANT2
     route-target import 64500:100555
 ```
 
+VERIFICATION
+```
+show ip route vrf external
+```
+
+
 ```
 vrf context external
   vni 100555
@@ -448,6 +456,20 @@ vrf context external
 ```
 interface nve1
   member vni 100555 associate-vrf
+```
+
+Create L3 VNI 
+```
+interface Vlan555
+  no shutdown
+  vrf member external
+  ip forward
+```
+
+
+VERIFICATION
+```
+show ip route vrf external
 ```
 
 
