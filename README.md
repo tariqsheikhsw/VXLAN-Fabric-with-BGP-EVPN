@@ -493,9 +493,22 @@ router bgp 64500
       address-family ipv4 unicast
 ```
 
+```
+vrf context OVERLAY-TENANT1
+  address-family ipv4 unicast
+    import vrf advertise-vpn
+!
+```
+vrf context OVERLAY-TENANT2
+  address-family ipv4 unicast
+    import vrf advertise-vpn
+!
+```
+
+
 Configure Route Leaking using Route-Maps
 ```
-ROUTE LEAKING
+ROUTE LEAKING / ROUTE MAPS
 ```
 
 //Some additional configuration required for BGP etc.
