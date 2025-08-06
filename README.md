@@ -1,6 +1,44 @@
 # VXLAN-Fabric-with-BGP-EVPN
 VXLAN-Fabric-with-BGP-EVPN
 
+# Getting Started
+To build a VXLAN fabric, follow these steps:
+
+# Pre-Requisites:
+- Run an IGP (Interior Gateway Protocol) of your choice between Spine and Leaf switches to ensure all loopbacks are available.
+- Enable Multicast and Configure Anycast RP on the Spine switch.
+- Configure MSDP (Multicast Source Discovery Protocol) between Spine switches to share active source information across different multicast domains.
+
+# VXLAN Fabric Build Steps:
+
+- Step 1:
+Define a Tenant VRF (Virtual Routing and Forwarding) on each Leaf switch. Each leaf must have a unique rd (route distinguisher).
+
+- Step 2:
+Configure BGP (Border Gateway Protocol) neighborship between Leaf and Spine switches only for the l2vpn address-family. Here, the spine acts as a Route-reflector. Also, on leafs, advertise the L2VPN routes out to the VRF address-family.
+
+- Step 3:
+Configure the replication type on all Leaf switches. For this demo, we will use Static replication.
+
+- Step 4:
+Configure L2VNI (Layer 2 VxLAN Network Identifier) and VXLAN to VLAN mapping on Leafs, to extend this Layer L2VNI across all the leaf switches.
+
+- Step 5:
+Configure Distributed Anycast Gateway for the Access VLANs on Leafs. Ensure the same IP address and mac-address are present on all DAGs (Distributed Anycast Gateways).
+
+- Step 6:
+Define L3VNI and corresponding VLANs on all Leafs. A L3VNI is used to route traffic between different VNIs/Subnets.
+
+- Step 7:
+Configure an SVI (Switched Virtual Interface) for the L3VNI and assign it to the Tenant VRF.
+
+- Step 8:
+Create a Network Virtualization Endpoint (NVE) interface. Map L2VNIs and L3VNI to the NVE interface. This is where the encapsulation and decapsulation happens.
+
+
+
+
+
 # Use-Case:1 SPINE LEAF ARCHITECTURE 
 
 # L2 VNIs
