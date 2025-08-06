@@ -36,8 +36,60 @@ Configure an SVI (Switched Virtual Interface) for the L3VNI and assign it to the
 Create a Network Virtualization Endpoint (NVE) interface. Map L2VNIs and L3VNI to the NVE interface. This is where the encapsulation and decapsulation happens.
 
 
+### VXLAN EVPN CONFIG CONSTRUCT w/ SAMPLE CONFIG
 
+# Replication Method
+```
+l2vpn evpn
+ router-id Loopback0
+ replication-type static
+ ! defining static multicast replication here, used for BUM traffic
+end
+```
 
+# L2VNI
+```
+l2vpn evpn instance <ID> vlan-based
+ encapsulation vxlan
+ !Defining VXLAN encapsulation here with a specific instance.
+ exit
+ vlan configuration <DAG-VLAN-ID>
+  member evpn-instance <ID> vni <L2VNI-ID>
+ !VXLAN VNI to VLAN mapping with above instance ID
+ exit
+```
+
+# L3VNI
+```
+vlan configuration <L3VNI-CORE-VLAN-ID>
+ member vni <L3VNI-ID>
+!
+interface Vlan <L3VNI-CORE-VLAN-ID>
+ vrf forwarding <VRF-NAME>
+ ip unnumbered Loopback0
+exit
+```
+
+# NVE
+```
+interface nve1
+ source-interface lo0
+ host-reachability protocol bgp
+ member vni <L2VNI-ID> mcast-group <Group-ID-1>
+ member vni <L2VNI-ID> mcast-group <Group-ID-2>
+ member vni <L3VNI-ID> vrf <VRF-NAME>
+end
+```
+
+# Dynamic Anycast Gateways (DAG SVI)
+```
+interface Vlan<VLAN-ID>
+ !Distributed Anycast Gateway (DAG) SVI on Edge
+ mac-address <H.H.H>
+ vrf forwarding <VRF-NAME>
+ ip address <NET><Mask>
+ no autostate
+```
 
 # Use-Case:1 SPINE LEAF ARCHITECTURE 
 
