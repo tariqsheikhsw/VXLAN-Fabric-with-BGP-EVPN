@@ -27,7 +27,7 @@ hardware access-list tcam region vpc-convergence 0
 hardware access-list tcam region arp-ether 256 
 ```
 
-NXOS Features (Spine and Leaf) - OSPF is for UNDERLAY and BGP is for OVERLAY
+### NXOS Features (Spine and Leaf) - OSPF is for UNDERLAY and BGP is for OVERLAY
 ```
 feature ospf
 feature bgp
@@ -57,12 +57,14 @@ DC2-LEAF1 - 10.2.0.11/32
 DC2-LEAF2 - 10.2.0.12/32
 ```
 
-Configure Loopback IP addresses on all devices
+### Configure Loopback IP addresses on all devices
 ```
 interface loopback0
   ip address 10.2.0.X/32
 ```
-Setting up OSPF for UNDERLAY 
+
+
+### Setting up OSPF for UNDERLAY 
 ```
 router ospf UNDERLAY
   router-id 10.2.0.X
@@ -75,6 +77,8 @@ interface loopback0
 
 DC1 - 2 SPINES, 2 LEAFs
 DC2 - 2 SPINES, 2 LEAFS
+
+### Configure Interfaces on SPINES, LEAFS, CORES for DC1 and DC2
 
 Configure FABRIC Interfaces on SPINES - towards LEAFS (eth1/1-2)
 (ip unnumbered loopback0)
@@ -143,7 +147,7 @@ interface Ethernet1/3-4
 
 
 
-Setting up Multicast - PIM 
+### Setting up Multicast - PIM 
 loopback1 (on spines only)
 loopback0 (config on leafs)
 
