@@ -154,37 +154,78 @@ show cdp neighbors
 !
 ```
 
-- Configure Interfaces between CORES in same DC (Eth1/2)
-- Configure Interfaces between CORES in DC1 to DC2 (Eth1/1) 
+- Configure Interfaces between CORES in same DC (Eth1/2) - uses OSPF   
+- Configure Interfaces between CORES in DC1 to DC2 (Eth1/1) - we don't use OSPF over DCI  
 
 
 ### Setting up Multicast - PIM 
 loopback1 (on spines only)
 loopback0 (config on leafs)
+DC1 RP - 10.2.0.98
+DC2 RP - 10.2.0.99
 
+DC1 CONFIGURATION (SPINE1/SPINE2)
 SPINE config
 ```
-ip pim rp-address 10.2.0.99 group-list 224.0.0.0/4
+ip pim rp-address 10.2.0.98 group-list 224.0.0.0/4
 ip pim ssm range 232.0.0.0/8
-ip pim anycast-rp 10.2.0.99 10.2.0.1
-ip pim anycast-rp 10.2.0.99 10.2.0.2
+ip pim anycast-rp 10.2.0.98 10.2.0.5
+ip pim anycast-rp 10.2.0.98 10.2.0.6
 interface Loopback1
- ip address 10.2.0.99/32
+ ip address 10.2.0.98/32
  ip router ospf UNDERLAY area 0.0.0.0
  ip pim sparse-mode
 ```
 
+Enable PIM SM on other interfaces 
+INT ETH1/1-4 
+```
+interface eth1/1-4
+ ip pim sparse-mode
+!
+```
+
+DC2 CONFIGURATION (SPINE1/SPINE2)
+SPINE config
+```
+ip pim rp-address 10.2.0.99 group-list 224.0.0.0/4
+ip pim ssm range 232.0.0.0/8
+ip pim anycast-rp 10.2.0.99 10.2.0.7
+ip pim anycast-rp 10.2.0.99 10.2.0.8
+interface Loopback1
+ ip address 10.2.0.98/32
+ ip router ospf UNDERLAY area 0.0.0.0
+ ip pim sparse-mode
+```
+
+Enable PIM SM on other interfaces 
+INT ETH1/1-4 
+```
+interface eth1/1-4
+ ip pim sparse-mode
+!
+```
+
+SPINES
+Enable IP PIM Sparse Mode on all interfaces (Lo0,Lo1,intEther1/1-4)
+```
+ip pim sparse-mode
+```
+
+DC1 LEAF1/LEAF2
+LEAF config
+```
+ip pim rp-address 10.2.0.98 group-list 224.0.0.0/4
+ip pim ssm range 232.0.0.0/8
+```
+
+DC2 LEAF1/LEAF2
 LEAF config
 ```
 ip pim rp-address 10.2.0.99 group-list 224.0.0.0/4
 ip pim ssm range 232.0.0.0/8
 ```
 
-SPINES
-Enable IP PIM Sparse Mode on all interfaces (Lo0,Lo1,intEther1/1-3)
-```
-ip pim sparse-mode
-```
 
 LEAFs
 Enable IP PIM Sparse Mode on all interfaces (Lo0,intEther1/1-2)
@@ -198,7 +239,8 @@ show ip pim rp
 ```
 
 
-Configure NVE (Network Virtual Endpoint) Interface - VTEP 
+
+### Configure NVE (Network Virtual Endpoint) Interface - VTEP --- NEEXXXTTTT
 only required on leafs
 ```
 interface nve1 
