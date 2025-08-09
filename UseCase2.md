@@ -70,6 +70,8 @@ router ospf UNDERLAY
 interface loopback0
  ip router ospf UNDERLAY area 0.0.0.0 
 ```
+- ip unnumbered on spines/leafs links
+- /30 ip addresses on spines/cores links
 
 DC1 - 2 SPINES, 2 LEAFs
 DC2 - 2 SPINES, 2 LEAFS
@@ -106,6 +108,39 @@ show ip ospf neighbor
 show ip route ospf-UNDERLAY
 !
 ```
+
+
+DC1 - 2 SPINES, 2 CORES
+DC2 - 2 SPINES, 2 CORES
+
+
+Configure FABRIC Interfaces on SPINES - towards CORE (eth1/3-4)
+(ip unnumbered loopback0)
+```
+interface Ethernet1/3-4
+  no shutdown
+  no switchport
+  medium p2p
+  mtu 9216
+  ip address 10.1.1.X/30
+  ip ospf network point-to-point
+  ip router ospf UNDERLAY area 0.0.0.0
+```
+
+
+Configure Interfaces on CORE - towards SPINES (eth1/3-4 )
+```
+interface Ethernet1/3-4
+  no shutdown
+  no switchport
+  medium p2p
+  mtu 9216
+  ip address 10.1.1.X/30
+  ip ospf network point-to-point
+  ip router ospf UNDERLAY area 0.0.0.0
+```
+
+
 
 
 Setting up Multicast - PIM 
