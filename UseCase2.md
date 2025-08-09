@@ -106,9 +106,6 @@ show ip ospf neighbor
 show ip route ospf-UNDERLAY
 !
 ```
-<img width="807" height="730" alt="image" src="https://github.com/user-attachments/assets/de276d2e-3b40-45b3-81e6-ed1e1062d1b7" />
-
-<img width="805" height="726" alt="image" src="https://github.com/user-attachments/assets/8e240959-c75c-4d5b-b04d-d134149fe970" />
 
 
 Setting up Multicast - PIM 
