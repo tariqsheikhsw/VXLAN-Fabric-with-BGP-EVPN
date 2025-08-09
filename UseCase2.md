@@ -39,12 +39,25 @@ feature nv overlay
 ```
 
 Loopback0 - VTEP / BGP peerings
-Spine1 - 10.2.0.1/32
-Spine2 - 10.2.0.2/32
-Leaf1 - 10.2.0.11/32
-Leaf2 - 10.2.0.22/32
-Leaf3 - 10.2.0.33/32
+```
+DC1-CORE1 - 10.2.0.1/32
+DC1-CORE2 - 10.2.0.2/32
+DC1-SPINE1 - 10.2.0.5/32
+DC1-SPINE2 - 10.2.0.6/32
+DC1-LEAF1 - 10.2.0.9/32
+DC1-LEAF2 - 10.2.0.10/32
+```
 
+```
+DC2-CORE1 - 10.2.0.3/32
+DC2-CORE2 - 10.2.0.4/32
+DC2-SPINE1 - 10.2.0.7/32
+DC2-SPINE2 - 10.2.0.8/32
+DC2-LEAF1 - 10.2.0.11/32
+DC2-LEAF2 - 10.2.0.12/32
+```
+
+Configure Loopback IP addresses on all devices
 ```
 interface loopback0
   ip address 10.2.0.X/32
@@ -57,10 +70,10 @@ router ospf UNDERLAY
 interface loopback0
  ip router ospf UNDERLAY area 0.0.0.0 
 ```
-Configure Interfaces on SPINES - towards LEAFS (eth1/1-3)
+Configure FABRIC Interfaces on SPINES - towards LEAFS (eth1/3-4)
 (ip unnumbered loopback0)
 ```
-interface Ethernet1/1-3
+interface Ethernet1/3-4
   no shutdown
   no switchport
   medium p2p
