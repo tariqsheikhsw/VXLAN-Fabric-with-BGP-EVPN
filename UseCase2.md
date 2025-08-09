@@ -144,6 +144,15 @@ interface Ethernet1/3-4
   ip router ospf UNDERLAY area 0.0.0.0
 ```
 
+Verification Commands
+```
+show ip ospf neighbor
+!
+show ip route ospf-UNDERLAY
+!
+show cdp neighbors
+!
+```
 
 
 
