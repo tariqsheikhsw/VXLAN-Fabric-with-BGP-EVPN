@@ -114,8 +114,8 @@ show ip route ospf-UNDERLAY
 ```
 
 
-DC1 - 2 SPINES, 2 CORES
-DC2 - 2 SPINES, 2 CORES
+DC1 - 2 SPINES, 2 CORES - 10.1.1.X/30
+DC2 - 2 SPINES, 2 CORES - 10.2.2.X/30
 
 
 Configure FABRIC Interfaces on SPINES - towards CORE (eth1/3-4)
@@ -154,6 +154,8 @@ show cdp neighbors
 !
 ```
 
+- Configure Interfaces between CORES in same DC (Eth1/2)
+- Configure Interfaces between CORES in DC1 to DC2 (Eth1/1) 
 
 
 ### Setting up Multicast - PIM 
@@ -194,10 +196,6 @@ Verification Commands
 ```
 show ip pim rp
 ```
-
-<img width="625" height="482" alt="image" src="https://github.com/user-attachments/assets/69267296-aef8-452a-b9e5-a9ad7f89b4fe" />
-
-<img width="586" height="482" alt="image" src="https://github.com/user-attachments/assets/caf4607a-a642-4c2e-abc6-2d9668049da9" />
 
 
 Configure NVE (Network Virtual Endpoint) Interface - VTEP 
