@@ -265,6 +265,64 @@ Verification Commands
 show interface nve1 
 ```
 
+### Multicast Configuration on CORES (for DC1 to DC2 Traffic to work)
+
+DC1 CORE1/CORE2
+```
+evpn multisite border-gateway 100
+  delay-restore time 100
+!
+```
+
+
+DC2 CORE1/CORE2
+```
+evpn multisite border-gateway 200
+  delay-restore time 100
+!
+```
+
+### Configure DCI and FABRIC interfaces for tracking (for both DCs)
+
+```
+interface Ethernet1/1
+   evpn multisite dci-tracking
+```
+
+```
+interface Ethernet1/2-4
+   evpn multisite fabric-tracking
+```
+
+### Configure Loopback100 (for both DC CORES)
+For CORE SWITHCES REDUNDANCY 
+FOR DC1 
+```
+interface loopback100
+  ip address 10.111.111.X/32
+  ip router ospf UNDERLAY area 0.0.0.0
+```
+
+
+FOR DC2
+```
+interface loopback100
+  ip address 10.222.222.X/32
+  ip router ospf UNDERLAY area 0.0.0.0
+```
+
+Configure NVE on CORE
+
+DC1/DC2 CORES
+```
+interface nve1
+  no shutdown
+  host-reachability protocol bgp
+  source-interface loopback0
+  multisite border-gateway interface loopback100
+```
+
+
 
 ### Enable NV Overlay (all devices)
 ```
@@ -272,8 +330,8 @@ nv overlay evpn
 ```
 
 
-
-### Configure BGP on SPINES
+### NEXT BGP CONFIGURATION on SPINES AND LEAFS (50)
+### Configure BGP on SPINES 
 ```
 router bgp 64500
 address-family ipv4 unicast
