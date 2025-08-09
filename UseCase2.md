@@ -159,7 +159,7 @@ show cdp neighbors
 
 
 ### Setting up Multicast - PIM 
-loopback1 (on spines only)
+loopback1 (on spines and leafs) - in this case using loopback1 on leafs also. //cross-check
 loopback0 (config on leafs)
 DC1 RP - 10.2.0.98
 DC2 RP - 10.2.0.99
@@ -240,13 +240,24 @@ show ip pim rp
 
 
 
-### Configure NVE (Network Virtual Endpoint) Interface - VTEP --- NEEXXXTTTT
-only required on leafs
+### Configure NVE (Network Virtual Endpoint) Interface - VTEP 
+
+loopback1 (on leafs)
+```
+interface Loopback1
+ ip address 10.0.1.X/32
+ ip pim sparse-mode
+ ip router ospf UNDERLAY area 0.0.0.0
+```
+
+
+
+only required on leafs (changed soource interface to Loopback1)
 ```
 interface nve1 
  no shutdown
  host-reachability protocol bgp
- source-interface loopback0
+ source-interface loopback1
 ```
 
 Verification Commands
@@ -254,15 +265,15 @@ Verification Commands
 show interface nve1 
 ```
 
-<img width="650" height="212" alt="image" src="https://github.com/user-attachments/assets/bfce0caf-53da-4cca-bf16-f2f57fcb176b" />
 
-
-Enable NV Overlay (all devices)
+### Enable NV Overlay (all devices)
 ```
 nv overlay evpn 
 ```
 
-Configure BGP on SPINES
+
+
+### Configure BGP on SPINES
 ```
 router bgp 64500
 address-family ipv4 unicast
