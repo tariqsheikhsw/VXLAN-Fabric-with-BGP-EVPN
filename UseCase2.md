@@ -70,15 +70,19 @@ router ospf UNDERLAY
 interface loopback0
  ip router ospf UNDERLAY area 0.0.0.0 
 ```
-Configure FABRIC Interfaces on SPINES - towards LEAFS (eth1/3-4)
+
+DC1 - 2 SPINES, 2 LEAFs
+DC2 - 2 SPINES, 2 LEAFS
+
+Configure FABRIC Interfaces on SPINES - towards LEAFS (eth1/1-2)
 (ip unnumbered loopback0)
 ```
-interface Ethernet1/3-4
+interface Ethernet1/1-2
   no shutdown
   no switchport
   medium p2p
   mtu 9216
-  ip address 10.4.0.X/30
+  ip unnumbered Loopback0
   ip ospf network point-to-point
   ip router ospf UNDERLAY area 0.0.0.0
 ```
@@ -90,7 +94,7 @@ interface Ethernet1/1-2
   no switchport
   medium p2p
   mtu 9216
-  ip address 10.4.0.X/30
+  ip unnumbered Loopback0
   ip ospf network point-to-point
   ip router ospf UNDERLAY area 0.0.0.0
 ```
